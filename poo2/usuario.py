@@ -1,15 +1,39 @@
 import hashlib
 
+# Classe para gerenciar materiais
+class ColecaoMateriais:
+    def __init__(self):  # Corrigido: __init_ com dois underscores
+        print("Construtor chamado!")
+        self.materiais = {}
+
+    def adicionar(self, material, quantidade):
+        self.materiais[material] = self.materiais.get(material, 0) + quantidade
+
+    def listar(self):
+        for material, quantidade in self.materiais.items():
+            print(f"{material}: {quantidade}")
+
+# Criando objeto da classe ColecaoMateriais
+estoque = ColecaoMateriais()
+
+# Adicionando materiais
+estoque.adicionar("Caneta", 5)
+estoque.adicionar("Lápis", 10)
+
+# Listando os materiais
+estoque.listar()
+
 # Classe de exceção personalizada
 class EstoqueInsuficienteException(Exception):
-    def _init_(self, material, quantidade, mensagem="Estoque insuficiente"):
+    def __init__(self, material, quantidade, mensagem="Estoque insuficiente"):  # Corrigido: __init_
         self.material = material
         self.quantidade = quantidade
-        super()._init_(mensagem)
+        self.mensagem = mensagem
+        super().__init__(mensagem)
 
-# Função que gerencia o estoque e levanta exceções personalizadas
+# Classe Estoque que gerencia materiais com controle de exceções
 class Estoque:
-    def _init_(self):
+    def __init__(self):  # Corrigido: __init_
         self.materiais = {}
 
     def adicionar_material(self, material, quantidade):
@@ -25,7 +49,7 @@ class Estoque:
         finally:
             print("Operação de controle de estoque finalizada.")
 
-# Testando a classe
+# Testando a classe Estoque
 estoque = Estoque()
 estoque.adicionar_material("Caneta", 10)
 estoque.remover_material("Caneta", 15)  # Gera uma exceção personalizada
@@ -131,9 +155,9 @@ class ProfConselheiro(Usuario):
         
         self.estoque.adicionar_material(material, quantidade)
     
-    def remover_material(self, material, quantidade):        
-
-        self.estoque.listar_materiais()
+    def remover_material(self, material, quantidade): 
+        
+        self.estoque.remover_material(material, quantidade)       
             
     def info(self):
         # Retorna uma string com informações do professor conselheiro
