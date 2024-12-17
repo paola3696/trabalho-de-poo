@@ -1,5 +1,35 @@
 import hashlib
 
+# Classe de exceção personalizada
+class EstoqueInsuficienteException(Exception):
+    def _init_(self, material, quantidade, mensagem="Estoque insuficiente"):
+        self.material = material
+        self.quantidade = quantidade
+        super()._init_(mensagem)
+
+# Função que gerencia o estoque e levanta exceções personalizadas
+class Estoque:
+    def _init_(self):
+        self.materiais = {}
+
+    def adicionar_material(self, material, quantidade):
+        self.materiais[material] = self.materiais.get(material, 0) + quantidade
+
+    def remover_material(self, material, quantidade):
+        try:
+            if material not in self.materiais or self.materiais[material] < quantidade:
+                raise EstoqueInsuficienteException(material, quantidade)
+            self.materiais[material] -= quantidade
+        except EstoqueInsuficienteException as e:
+            print(f"Erro: {e.mensagem} - Material: {e.material}, Quantidade solicitada: {e.quantidade}")
+        finally:
+            print("Operação de controle de estoque finalizada.")
+
+# Testando a classe
+estoque = Estoque()
+estoque.adicionar_material("Caneta", 10)
+estoque.remover_material("Caneta", 15)  # Gera uma exceção personalizada
+
 # Classe base para todos os tipos de usuários do sistema
 class Usuario:
     usuarios_cadastrados = []  # Lista que armazena todos os usuários cadastrados
