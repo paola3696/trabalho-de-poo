@@ -1,8 +1,33 @@
 #Integrantes do grupo: Sarah Evelen, Paola Loeblem, Guilherme Evangelista, Sara Isabelly
 #Turma:2°A informática 
 #Programação Orientada a Objetos
+
+from collections import Counter
+
+# Contando elementos em uma lista
+itens = ["caneta", "lápis", "borracha", "caneta", "caneta", "lápis"]
+contagem = Counter(itens)
+
+print("Itens no estoque:")
+for item, quantidade in contagem.items():
+    print(f"{item}: {quantidade}")
+    
 # Importa as classes definidas anteriormente
 from usuario import Usuario, ServidorDepae, ProfConselheiro, Avaliador, Turma
+
+def definir_nota(valor):
+    try:
+        if valor < 0 or valor > 10:
+            raise ValueError("A nota deve estar entre 0 e 10.")
+        print(f"Nota {valor} registrada com sucesso.")
+    except ValueError as e:
+        print(f"Erro: {e}")
+    finally:
+        print("Processo de definição de nota encerrado.")
+
+# Testando a função
+definir_nota(12)  # Gera uma exceção
+definir_nota(8)   # Nota válida
 
 # Função para solicitar login do usuário
 def solicitar_login():
@@ -94,10 +119,14 @@ def main():
                             nome_turma = input("Digite o nome da turma: ")
                             turma = usuario.cadastrar_turma(nome_turma)
                             print(f"Turma {turma.nome} cadastrada com sucesso.")
-                        elif opcao_prof == "2" or opcao_prof == "3":
+                        elif opcao_prof == "2":
                             material = input("Digite o nome do material: ")
                             quantidade = int(input("Digite a quantidade: "))
-                            adicionar = True if opcao_prof == "2" else False
+                            usuario.adicionar_material(material, quantidade)
+                        elif  opcao_prof == "2":
+                            material = input("Digite o nome do material: ")
+                            quantidade = int(input("Digite a quantidade: "))
+                            usuario.adicionar_material(material, quantidade)
                             if estoque:
                                 usuario.gerenciar_estoque(estoque, material, quantidade, adicionar=adicionar)
                             else:
